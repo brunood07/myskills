@@ -19,6 +19,7 @@ export function Home() {
   const [newSkill, setNewSkill] = useState("");
   const [mySkills, setMySkills] = useState<SkillData[]>([]);
   const [greeting, setGreeting] = useState("");
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -33,6 +34,11 @@ export function Home() {
     
   }, []);
 
+  useEffect(() => {
+    setCount(mySkills.length);
+
+  }, [handleAddNewSkill]);
+
   function handleAddNewSkill() {
     const data = {
       id: String(new Date().getTime()),
@@ -46,6 +52,8 @@ export function Home() {
     setMySkills(oldState => oldState.filter(
       skill => skill.id !== id
     ));
+
+    setCount(mySkills.length);
   }
 
   return(
@@ -68,7 +76,7 @@ export function Home() {
       <Button onPress={handleAddNewSkill} title="Add" />
 
       <Text style={[styles.title, { marginVertical: 50 }]}>
-        My Skills
+        My Skills: {count}
       </Text>
 
       <FlatList 
